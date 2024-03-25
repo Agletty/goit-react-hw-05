@@ -1,0 +1,18 @@
+.movieItem {
+  padding-bottom: 20px;
+  height: 471px;
+  cursor: pointer;
+  margin-top: 30px;
+  text-decoration: none;
+
+  border-radius: 5px;
+  transform: scale(1.05);
+}
+
+.moviesList {
+  display: grid;
+  grid-template-columns: repeat(4, 1fr);
+
+  grid-column-gap: 15px;
+  grid-row-gap: 15px;
+}

@@ -1,0 +1,9 @@
+.pageHeader {
+  font-size: 32px;
+  font-weight: 500;
+  font-family: inherit;
+  text-align: left;
+  color: #377bbb;
+  height: 20px;
+  margin-bottom: 40px;
+}

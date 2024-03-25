@@ -1,0 +1,32 @@
+.header {
+  display: flex;
+  justify-content: left;
+  align-items: center;
+  min-height: 80px;
+  margin-bottom: 16px;
+  border-bottom: 1px solid #2a363b;
+}
+.navLink {
+  display: inline-block;
+  text-decoration: none;
+  padding: 12px;
+  font-weight: 500;
+  color: #2a363b;
+  font-size: 18px;
+}
+/* .navLink.active {
+  color: #5d4cc2;
+} */
+.active {
+  color: #5d4cc2;
+}
+.title {
+  font-size: 32px;
+  font-weight: 500;
+  display: inline-block;
+  text-decoration: none;
+  padding: 12px;
+  font-weight: 500;
+  color: #2a363b;
+  font-size: 18px;
+}
