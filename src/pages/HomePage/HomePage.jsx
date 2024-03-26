@@ -22,10 +22,8 @@ export default function HomePage() {
       }
     };
 
-    if (movies.length === 0 && isLoading) {
-      fetchMovies();
-    }
-  }, [movies, isLoading]);
+    fetchMovies();
+  }, []);
 
   return (
     <>
