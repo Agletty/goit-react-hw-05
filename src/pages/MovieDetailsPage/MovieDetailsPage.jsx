@@ -11,12 +11,14 @@ import { Notify } from "notiflix/build/notiflix-notify-aio";
 
 import { getMovieDetails } from "../../servises/api";
 import css from "./MovieDetailsPage.module.css";
+import NotFoundPage from "../NotFoundPage/NotFoundPage";
 
 const defaultImg =
   "https://dl-media.viber.com/10/share/2/long/vibes/icon/image/0x0/95e0/5688fdffb84ff8bed4240bcf3ec5ac81ce591d9fa9558a3a968c630eaba195e0.jpg";
 
 export default function MovieDetailsPage() {
   const [movie, setMovie] = useState(null);
+  const [loading, setLoading] = useState(true);
   const { movieId } = useParams();
   const location = useLocation();
   const navigate = useNavigate();
@@ -24,17 +26,27 @@ export default function MovieDetailsPage() {
   const backLink = location.state?.from ?? "/";
 
   useEffect(() => {
-    const getData = async () => {
+    const fetchData = async () => {
       try {
         const results = await getMovieDetails(movieId);
         setMovie(results);
+        setLoading(false);
       } catch (error) {
+        setLoading(false);
         Notify.info(`${error.code}`);
       }
     };
 
-    getData();
+    fetchData();
   }, [movieId]);
+
+  if (loading) {
+    return <Loader />;
+  }
+
+  if (!movie || movie.length === 0) {
+    return <NotFoundPage />;
+  }
 
   const handleClickGoBack = () => {
     navigate(backLink);
@@ -42,18 +54,16 @@ export default function MovieDetailsPage() {
 
   return (
     <>
-      {!movie && <Loader />}
-
-      <button
-        className={css.movieButton}
-        type="button"
-        onClick={() => handleClickGoBack()}
-      >
-        Go back
-      </button>
-
-      {movie && (
+      {!loading ? (
         <>
+          <button
+            className={css.movieButton}
+            type="button"
+            onClick={() => handleClickGoBack()}
+          >
+            Go back
+          </button>
+
           <div className={css.movieContainer}>
             <img
               src={
@@ -61,7 +71,7 @@ export default function MovieDetailsPage() {
                   ? `https://image.tmdb.org/t/p/w500${movie.poster_path}`
                   : defaultImg
               }
-              alt={movie.original_title || "No Poster Available"}
+              alt={"poster"}
               width={300}
               height={450}
             />
@@ -95,6 +105,8 @@ export default function MovieDetailsPage() {
           </ul>
           <Outlet />
         </>
+      ) : (
+        <Loader />
       )}
     </>
   );

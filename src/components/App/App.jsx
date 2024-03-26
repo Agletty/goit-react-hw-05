@@ -10,7 +10,7 @@ const Layout = lazy(() => import("../Layout/Layout"));
 const HomePage = lazy(() => import("../../pages/HomePage/HomePage"));
 const MoviesPage = lazy(() => import("../../pages/MoviesPage/MoviesPage"));
 const MovieDetailsPage = lazy(() =>
-  import("../../pages/MoviesDetailsPage/MoviesDetailsPage")
+  import("../../pages/MovieDetailsPage/MovieDetailsPage")
 );
 const CastPage = lazy(() => import("../MovieCast/MovieCast"));
 const ReviewsPages = lazy(() => import("../MovieReviews/MovieReviews"));

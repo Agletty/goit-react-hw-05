@@ -3,19 +3,17 @@ import { useSearchParams } from "react-router-dom";
 import { Loader } from "../../components/Loader/Loader";
 import { getSearchMovies } from "../../servises/api";
 import { Notify } from "notiflix/build/notiflix-notify-aio";
-import MoviesList from "../../components/MoviesList/MoviesList";
+import MovieList from "../../components/MovieList/MovieList";
 
 export default function MoviesPage() {
   const [inputValue, setInputValue] = useState("");
   const [movies, setMovies] = useState([]);
+  const [loading, setLoading] = useState(false);
   const [query, setQuery] = useSearchParams();
 
   useEffect(() => {
-    if (!query.get("query")) {
-      setMovies(null);
-      return;
-    }
-    const getData = async () => {
+    const fetchData = async () => {
+      setLoading(true);
       try {
         const results = await getSearchMovies(query.get("query"));
         setMovies(results);
@@ -24,9 +22,14 @@ export default function MoviesPage() {
         }
       } catch (error) {
         Notify.info(`${error.code}`);
+      } finally {
+        setLoading(false);
       }
     };
-    getData();
+
+    if (query.get("query")) {
+      fetchData();
+    }
   }, [query]);
 
   const handleSearchChange = (e) => {
@@ -37,6 +40,7 @@ export default function MoviesPage() {
     e.preventDefault();
     if (!inputValue) {
       Notify.info("Please enter film name");
+      return;
     }
     setQuery({ query: inputValue });
     setInputValue("");
@@ -48,8 +52,8 @@ export default function MoviesPage() {
         <input type="text" value={inputValue} onChange={handleSearchChange} />
         <button type="submit">Search</button>
       </form>
-      {!movies && query.get("query") && <Loader />}
-      {movies && <MoviesList movies={movies} />}
+      {loading && <Loader />}
+      {movies.length > 0 && <MovieList movies={movies} />}
     </>
   );
 }
